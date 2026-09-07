@@ -3,13 +3,15 @@ use std::fs;
 use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
 
-const CONFIG_FILE_NAME: &str = "pzmdli.toml";
 const APP_DIR_NAME: &str = "pzmod-dli";
+const CONFIG_FILE_NAME: &str = "pzmdli.toml";
+const PZ_APP_ID: &str = "108600";
+const CONFIG_VERSION: &str = "2";
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Config {
-    pub steamcmd_path: PathBuf,
-    pub target_dir: PathBuf,
+    pub cfg_version: String,
+    pub pz_app_id: String,
 }
 
 impl Config {
@@ -17,6 +19,13 @@ impl Config {
         match Config::config_path() {
             Ok(path) => path.exists(),
             Err(_) => false,
+        }
+    }
+
+    pub fn new() -> Config {
+        Config {
+            cfg_version: String::from(CONFIG_VERSION),
+            pz_app_id: String::from(PZ_APP_ID),
         }
     }
 
@@ -57,7 +66,7 @@ impl Config {
 
     /// Windows: %APPDATA%\pzmod-dli
     /// Linux (XDG): $XDG_CONFIG_HOME/pzmod-dli, else $HOME/.config/pzmod-dli
-    fn config_dir() -> Result<PathBuf, String> {
+    pub fn config_dir() -> Result<PathBuf, String> {
         let base = Config::config_base()?;
         Ok(base.join(APP_DIR_NAME))
     }
