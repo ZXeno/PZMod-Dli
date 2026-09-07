@@ -1,0 +1,12 @@
+[package]
+name = "pzmod-dli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+flate2 = "1.1.10"
+reqwest = "0.13.4"
+serde = { version = "1.0.229", features = ["derive"] }
+tar = "0.4.46"
+toml = "1.1.5"
+zip = "8.6.0"
